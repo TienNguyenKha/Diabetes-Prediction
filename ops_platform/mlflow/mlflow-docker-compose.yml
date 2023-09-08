@@ -1,0 +1,15 @@
+# Source: https://hub.docker.com/r/atcommons/mlflow-server
+version: '3'
+
+services:
+  mlflow:
+    build:
+      context: mlflow/
+      args:
+        MLFLOW_VERSION: ${MLFLOW_VERSION}
+    ports:
+      - "5000:5000"
+    environment:
+      BACKEND_STORE_URI: sqlite:////mlflow/mlflow.db
+    volumes:
+      - ./run_env/data:/mlflow
