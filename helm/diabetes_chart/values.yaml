@@ -1,0 +1,4 @@
+image:
+  repository: tiennguyenkha/diabetes_predicton
+  tag: "0.0.4"
+  pullPolicy: Always
