@@ -49,7 +49,7 @@ pipeline {
             steps {
                 script {
                     container('helm') {
-                        sh("helm upgrade --install hpp ./helm/diabetes_chart --namespace model-serving")
+                        sh("helm upgrade --install hpp ./new_helm --namespace model-serving")
                     }
                 }
             }
