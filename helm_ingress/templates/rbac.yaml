@@ -31,7 +31,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: default
-    namespace: jenkins
+    namespace: {{ .Release.Namespace }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
