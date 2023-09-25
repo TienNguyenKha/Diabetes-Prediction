@@ -195,3 +195,5 @@ poetry.toml
 .idea
 
 mlruns
+
+*.parquet
