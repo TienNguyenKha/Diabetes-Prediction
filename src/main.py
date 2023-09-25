@@ -18,9 +18,10 @@ model = joblib.load(
     os.environ.get('MODEL_PATH', "models/model.pkl")
 )
 
-app = FastAPI(
-    root_path='/diabetes-service'
-)
+# app = FastAPI(
+#     root_path='/diabetes'
+# )
+app = FastAPI()
 
 class request_body(BaseModel):
     data: List[float]
@@ -29,6 +30,10 @@ example_input = {
     "data": [-1.15332192, -0.05564105,  0.12035144, -1.25882277, -1.08285125,
         -0.28446352, -0.49468374, -0.52559768]
 }
+
+@app.get("/")
+def home():
+    return "API is working as expected."
 
 @app.post("/preloaded_xgb")
 async def diabetes_predict(input : request_body):
