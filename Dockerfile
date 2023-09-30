@@ -13,6 +13,7 @@ COPY ./models /app/models
 COPY ./src/main.py /app
 
 ENV MODEL_PATH /app/models/model.pkl
+ENV SCALER_PATH /app/models/scaler.gz
 
 LABEL maintainer="tiennk"
 
