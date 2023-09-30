@@ -4,6 +4,7 @@ import os
 from typing import List
 from fastapi import FastAPI, File, UploadFile
 from pydantic import BaseModel
+from sklearn.preprocessing import StandardScaler
 
 # import mlflow
 
@@ -17,6 +18,9 @@ from pydantic import BaseModel
 model = joblib.load(
     os.environ.get('MODEL_PATH', "models/model.pkl")
 )
+scaler = joblib.load(
+    os.environ.get('SCALER_PATH', "models/scaler.gz")
+)
 
 # app = FastAPI(
 #     root_path='/diabetes'
@@ -25,20 +29,25 @@ app = FastAPI()
 
 class request_body(BaseModel):
     data: List[float]
+    class Config:
+        schema_extra = {
+            "example": [0.0, 120.0, 74.0, 18.0,
+                        63.0, 30.5, 0.285, 26.0]
+        }
     
-example_input = {
-    "data": [-1.15332192, -0.05564105,  0.12035144, -1.25882277, -1.08285125,
-        -0.28446352, -0.49468374, -0.52559768]
-}
+# example_input = {
+#     "data": [0.0, 120.0, 74.0, 18.0, 63.0, 30.5, 0.285, 26.0]
+# }
 
 @app.get("/")
 def home():
-    return "API is working as expected."
+    return "API is working."
 
 @app.post("/preloaded_xgb")
 async def diabetes_predict(input : request_body):
     x= np.array(input.data).reshape(-1, 8)
-    pred=model.predict(x)[0]
+    x_scaled= scaler.transform(x)
+    pred=model.predict(x_scaled)[0]
     result={}
     if pred == 0:
         result['diabetes result']= 'No diabetes'
