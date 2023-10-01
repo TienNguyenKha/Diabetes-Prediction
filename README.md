@@ -8,7 +8,6 @@
 	* [Requirements](#requirements)
     * [System architecture](#systemarchitecture)
 	* [Usage](#usage)
-	* [Customization](#customization)
 
 <!-- /code_chunk_output -->
 
