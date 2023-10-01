@@ -8,7 +8,7 @@
 	* [Requirements](#requirements)
     * [System architecture](#systemarchitecture)
 	* [Usage](#usage)
-
+	* [Additional Usage](#additioanlusage)
 <!-- /code_chunk_output -->
 
 ## Introduction:
@@ -203,7 +203,33 @@ Open web browser jenkins UI through http://yourExternalIP:8081/ and paste jenkin
 
 ![Jenkinslogin](assets/loginjenkins.png)
 
-After entering the password, install the "set sugested plugin". And information for the user can be next/skiped.
+After entering the password, install the "set sugested plugin". And information for the user can be next/skiped and so on ...
+
+
+Now, you are in Jenkin UI:
+
+![JenkinsUI](assets/jenkinsUI.png)
+
+Then navigate to Dashboard > Manage Jenkins > Plugins > Available plugin. And SELECT Docker, Docker pipeline, gcloud SDK, kubernetes. Then SELECT "Install without restart" or "Download now and install after restart"
+
+
+## Additional Usage:
+In case you want EDA and training model from my notebooks. You need deploy MLflow up by following command:
+```bash
+pip install mlflow==2.6.0
+docker compose -f ./ops_platform/mlflow/mlflow-docker-compose.yml up -d
+```
+Then you can open MLflow's web browser through: http://localhost:5000/
+
+![Mlflow](assets/Mlflow.png)
+
+Now, you can do Experiment tracking & Model registry more easier with MLflow.
+
+
+
+
+
+
 
 
 
