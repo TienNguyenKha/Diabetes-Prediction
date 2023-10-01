@@ -42,21 +42,21 @@ gcloud init
 ### Install dev environment:
 #### Requirements:
 
-* joblib=1.3.2
-* numpy=1.25.2
-* xgboost=1.7.6
-* scikit-learn=1.3.0
-* fastapi=0.103.1
-* uvicorn[standard]=0.23.2
-* pydantic=2.3.0
-* pytest=7.1.2
-* ansible=8.3.0
-* requests=2.31.0
-* google-auth=2.23.0
-* google-auth-httplib2=0.1.1
-* google-auth-oauthlib=1.1.0
-* google-cloud=0.34.0
-* pre-commit=3.4.0
+* ansible==8.3.0
+* fastapi==0.103.1
+* google-auth==2.23.0
+* google-auth-httplib2==0.1.1
+* google-auth-oauthlib==1.1.0
+* google-cloud==0.34.0
+* joblib==1.3.2
+* numpy==1.25.2
+* pre-commit==3.4.0
+* pydantic==2.3.0
+* pytest==7.1.2
+* requests==2.31.0
+* scikit-learn==1.3.0
+* uvicorn[standard]==0.23.2
+* xgboost==1.7.6
 
 ```bash
 pip install -r requirements_dev.txt
@@ -216,6 +216,7 @@ Then navigate to Dashboard > Manage Jenkins > Plugins > Available plugin. And SE
 
 
 ## Additional Usage:
+### Mlflow deploy:
 In case you want EDA and training model from my notebooks. You need deploy MLflow up by following command:
 ```bash
 pip install mlflow==2.6.0
@@ -226,6 +227,21 @@ Then you can open MLflow's web browser through: http://localhost:5000/
 ![Mlflow](assets/Mlflow.png)
 
 Now, you can do Experiment tracking & Model registry more easier with MLflow.
+
+### Pre-commit:
+If you want to inspect the snapshot that's about to be committed, to see if you've forgotten something, to make sure tests run, or to examine whatever you need to inspect in the code. Let's use `pre-commit`
+```bash
+pip install pre-commit
+pre-commit install #After the installation is complete, from that moment on, if there is a new commit, the pre-commit guy will help us format the code.
+pre-commit run --all-files # run all files
+```
+
+### Yamlint:
+This tool to check your `yaml` file in your repo:
+```bash
+pip install yamllint
+yamllint <yaml_file_name>.yaml
+```
 
 ## TODOs
  + Building observability system on kubernetes (Prometheus and grafana)
