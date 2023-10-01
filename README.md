@@ -183,6 +183,11 @@ I'll install the `nginx controller` on this new cluster right away because I'm n
 helm upgrade --install ingress-nginx ingress-nginx --repo https://kubernetes.github.io/ingress-nginx --namespace ingress-nginx --create-namespace
 ```
 
+**Note**: Remember to create a namespace `model-serving` first in your new cluster. Because this application will be deployed in `model-serving` namespace.
+```bash
+k create ns model-serving
+```
+
 ### CI/CD with Jenkins:
 
 First, ssh to your new jenkins VM again:
@@ -214,7 +219,16 @@ Now, you are in Jenkin UI:
 
 Then navigate to Dashboard > Manage Jenkins > Plugins > Available plugin. And SELECT Docker, Docker pipeline, gcloud SDK, kubernetes. Then SELECT "Install without restart" or "Download now and install after restart"
 
+And then you can create new Jenkins pipeline by following these step:
+* Click the New Item menu within Jenkins Classic UI left column
 
+* Provide a name for your new item (e.g. My-Pipeline) and select Multibranch Pipeline
+
+* Click the Add Source button, choose the type of repository you want to use and fill in the details
+
+* Click the Save button and watch your first Pipeline run.
+
+**Note**: Remember to connect and assign permissions so that Jenkins may connect to the K8s cluster.
 ## Additional Usage:
 ### Mlflow deploy:
 In case you want EDA and training model from my notebooks. You need deploy MLflow up by following command:
