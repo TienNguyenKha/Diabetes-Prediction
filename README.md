@@ -12,6 +12,20 @@
 <!-- /code_chunk_output -->
 
 ## Introduction:
+This is the last module project when I first learned about MLE. I will build and serving diabetes-prediciton model as in a production environment. I also used tool & technologies to quickly deploy the ML system into production and automate processes during the development and deployment of the ML system.
+## System architecture:
+![systempipline](assets/systempipeline.png)
+
+* Source control: Git/Github
+* CI/CD: Jenkins
+* Experiment tracking & Model registry: MLflow
+* Build API: FastAPI
+* Containerize application: Docker
+* Container orchestration system: Kubernetes/K8S
+
+### Kubernetes architecture:
+![k8sarchi](assets/Kubernetesarchi.png)
+
 ## Installation:
 ### Install the gcloud CLI:
 You can easily connect to GKE using the Gcloud CLI. Reading this guide to install gcloud CLI [gcloud CLI](https://cloud.google.com/sdk/docs/install#deb).
