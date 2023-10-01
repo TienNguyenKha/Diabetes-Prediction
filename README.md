@@ -1,4 +1,4 @@
-# MLE practice - Diabetes Prediction model 
+# MLE practice - Diabetes Prediction model
 
 <!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
 <!-- code_chunk_output -->
@@ -9,6 +9,7 @@
     * [System architecture](#systemarchitecture)
 	* [Usage](#usage)
 	* [Additional Usage](#additioanlusage)
+	* [TODOs](#todos)
 <!-- /code_chunk_output -->
 
 ## Introduction:
@@ -55,6 +56,7 @@ gcloud init
 * google-auth-httplib2=0.1.1
 * google-auth-oauthlib=1.1.0
 * google-cloud=0.34.0
+* pre-commit=3.4.0
 
 ```bash
 pip install -r requirements_dev.txt
@@ -88,7 +90,7 @@ cd /local/ansible/deploy_jenkins
 ansible-playbook create_compute_instance.yaml
 ```
 
-**Note**:Please check the file `create_compute_instance.yaml`. The `project id` and `service account` should be changed to match yours (e.g., line 11 & line 14, line 43 & line 45). 
+**Note**:Please check the file `create_compute_instance.yaml`. The `project id` and `service account` should be changed to match yours (e.g., line 11 & line 14, line 43 & line 45).
 
 After creating your Jenkins VM instance on GCP, navigate to [VM instance UI](https://console.cloud.google.com/compute/instances) and COPY `external IP` corresponding with yours. I COPY `external IP` "jenkins-instance" for example:
 
@@ -144,7 +146,7 @@ Note: Before creates an execution plan, you should authenticate with GCP first u
 gcloud auth application-default login
 ```
 
-Carries out the planned changes to each resource using the relevant infrastructure provider's API. 
+Carries out the planned changes to each resource using the relevant infrastructure provider's API.
 
 **Note**: It will ask you for confirmation before making any changes. Type `yes` if you have checked the execution plan carefully.
 
@@ -225,22 +227,5 @@ Then you can open MLflow's web browser through: http://localhost:5000/
 
 Now, you can do Experiment tracking & Model registry more easier with MLflow.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+## TODOs
+ + Building observability system on kubernetes (Prometheus and grafana)

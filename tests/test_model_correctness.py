@@ -4,10 +4,12 @@ import numpy as np
 # Define path to our model
 MODEL_DIR = "models"
 
+
 def test_model_correctness():
     clf = joblib.load(f"{MODEL_DIR}/model.pkl")
-    data = [-1.15332192, -0.05564105,  0.12035144, -1.25882277, -1.08285125,
-        -0.28446352, -0.49468374, -0.52559768]
-    x= np.array(data).reshape(-1, 8)
-    pred=clf.predict(x)[0]
+    scaler = joblib.load(f"{MODEL_DIR}/scaler.gz")
+    data = [0.0, 120.0, 74.0, 18.0, 63.0, 30.5, 0.285, 26.0]
+    x_scaled = scaler.transform(data)
+    x = np.array(x_scaled).reshape(-1, 8)
+    pred = clf.predict(x)[0]
     assert pred == 0

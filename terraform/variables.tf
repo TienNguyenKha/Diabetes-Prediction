@@ -14,4 +14,3 @@ variable "bucket" {
   description = "GCS bucket for MLE course"
   default     = "mlecourse-399310"
 }
-
