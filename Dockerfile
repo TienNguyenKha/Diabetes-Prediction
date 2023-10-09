@@ -11,6 +11,7 @@ COPY ./models /app/models
 
 # Copy necessary files to our app
 COPY ./app/main.py /app
+COPY ./app/utils /app/utils
 
 ENV MODEL_PATH /app/models/model.pkl
 ENV SCALER_PATH /app/models/scaler.gz
