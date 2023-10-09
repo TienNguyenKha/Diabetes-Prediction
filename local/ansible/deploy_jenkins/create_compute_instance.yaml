@@ -11,7 +11,7 @@
         project: mlecourse-399310
         # The service account is needed to create the resources
         auth_kind: serviceaccount
-        service_account_file: ../secrets/mlecourse-399310-c6c7fd894514.json
+        service_account_file: ../secrets/mlecourse-399310-a9e446a4b286.json
         disks:
           - auto_delete: true
             boot: true
@@ -42,4 +42,4 @@
         description: Allow incoming traffic on port 8081
         project: mlecourse-399310
         auth_kind: serviceaccount
-        service_account_file: ../secrets/mlecourse-399310-c6c7fd894514.json
+        service_account_file: ../secrets/mlecourse-399310-a9e446a4b286.json
