@@ -8,6 +8,7 @@
     * [System architecture](#system-architecture)
 	* [Prerequisites installation](#prerequisites-installation)
 	* [Component Preparation](#component-preparation)
+	* [Usage](#usage)
 	* [Additional Usage](#additional-usage)
 	* [TODOs](#todos)
 <!-- /code_chunk_output -->
@@ -41,7 +42,7 @@ Fill Project name (for example, "mlecourse" ), and hit **Create**
 
 ![CreatenewproGCP2](assets/CreateNewprojectGCP2.png)
 
-**Note**: Remember to create a `billing account` after creating the project, then linking that `billing account` to the newly created project (refer: [Create and Link Billing account](https://www.youtube.com/watch?v=uINleRduCWM) ). If you've never used GCP before, choose "START MY FREE TRIAL" to try it out for 3 months for free.
+**Note**: Remember to create a `billing account` after creating the project, then linking that `billing account` to the newly created project (refer: [Create and Link Billing account](https://www.youtube.com/watch?v=uINleRduCWM)). If you've never used GCP before, choose "START MY FREE TRIAL" to try it out for 3 months for free.
 
 Next, navigate to [Compute Engine API UI](https://console.cloud.google.com/marketplace/product/google/compute.googleapis.com) to "ENABLE" **Compute Engine API**:
 
@@ -111,31 +112,9 @@ Modify the IP of the newly created instance to the `inventory` file, then run th
 ansible-playbook -i ../inventory deploy_jenkins.yml
 ```
 
+**Note:** Please save this `Jenkins external IP`, we will use it later to access Jenkins again
 <!-- Integrate your github source to the Jenkins VM once it has been created. You can follow this link: [Integrate Jenkins with GitHub ](https://www.whizlabs.com/blog/integrate-jenkins-with-github/) -->
-#### Add SSH key:
-First, check if we can connect to the External IP via port 22 by using telnet on your local terminal:
-```bash
-telnel <jenkins_external_IP> 22
-```
 
-We will see a notification that you have successfully connected if you did it correctly
-
-Generate your SSH key first. Open your local terminal, type `ssh-keygen` and type Enter to die until Overwrite:
-```bash
-ssh-keygen
-```
-
-Navigate to [METADATA](https://console.cloud.google.com/compute/metadata) and Select the tab SSH KEYS and click the button + ADD ITEM (or ADD SSH KEY if you don’t see the + ADD ITEM button):
-
-Copy the content of your file `~/.ssh/id_rsa.pub` to GCP and press the blue button SAVE at the bottom of the page:
-
-
-![sshkey](assets/sshkeyy.png)
-
-**Note**: To see the content of the file `~/.ssh/id_rsa.pub`, use the cat command
-```bash
-cat ~/.ssh/id_rsa.pub
-```
 
 ### Create GKE cluster:
 
@@ -269,9 +248,34 @@ Then go to line 297 in `values-prometheus.yaml` file to replace the <DISCORD_WEB
 
 The config above will sends all alerts (grouped by alertname and job) to a single Discord receiver.
 
+## Usage:
 ### CI/CD with Jenkins:
 
-First, ssh to your new jenkins VM again:
+First, check if we can connect to the External IP of Jenkins via port 22 by using telnet on your local terminal:
+```bash
+telnel <jenkins_external_IP> 22
+```
+
+We will see a notification that you have successfully connected if you did it correctly
+
+Generate your SSH key first. Open your local terminal, type `ssh-keygen` and type Enter to die until Overwrite:
+```bash
+ssh-keygen
+```
+
+Navigate to [METADATA](https://console.cloud.google.com/compute/metadata) and Select the tab SSH KEYS and click the button + ADD ITEM (or ADD SSH KEY if you don’t see the + ADD ITEM button):
+
+Copy the content of your file `~/.ssh/id_rsa.pub` to GCP and press the blue button SAVE at the bottom of the page:
+
+
+![sshkey](assets/sshkeyy.png)
+
+**Note**: To see the content of the file `~/.ssh/id_rsa.pub`, use the cat command
+```bash
+cat ~/.ssh/id_rsa.pub
+```
+
+Next, ssh to your jenkins VM:
 ```bash
 ssh -i ~/.ssh/id_rsa username@jenkins_externalIP
 ```
@@ -282,23 +286,25 @@ sudo docker ps
 ```
 ![Jenkinscheck](assets/jenkincheck.png)
 
-Ok! jenkins is running successfully. Let get the jenkins password now:
+Ok! jenkins is running successfully. Let get the jenkins "password" now:
 ```bash
 sudo docker exec -ti jenkins cat /var/jenkins_home/secrets/initialAdminPassword
 ```
 
-Open web browser jenkins UI through http://yourExternalIP:8081/ and paste jenkins password:
+Open web browser jenkins UI through http://yourExternalIP:8081/ and paste jenkins password here:
 
-![Jenkinslogin](assets/loginjenkins.png)
+![Jenkinslogin](assets/jenkinslogin.png)
 
-After entering the password, install the "set sugested plugin". And information for the user can be next/skiped and so on ...
+After entering the password, install the "set sugested plugin". Information for user can be "next/skiped" -> "save and finish" and so on ...
+
+![Jenkinsinstallsugest](assets/jenkinsInstallsugested.png)
 
 
-Now, you are in Jenkin UI:
+Now, you are in Jenkins UI:
 
-![JenkinsUI](assets/jenkinsUI.png)
+![JenkinsUI](assets/JenkinsUI.png)
 
-Then navigate to Dashboard > Manage Jenkins > Plugins > Available plugin. And SELECT Docker, Docker pipeline, gcloud SDK, kubernetes. Then SELECT "Install without restart" or "Download now and install after restart"
+Then navigate to Dashboard > Manage Jenkins > Plugins > Available plugin. And TYPE "Docker, Docker pipeline, gcloud SDK, kubernetes" on search bar. Then SELECT "Install without restart" or "Download now and install after restart"
 
 And then you can create new Jenkins pipeline by following these step:
 * Click the New Item menu within Jenkins Classic UI left column
