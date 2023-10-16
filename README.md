@@ -5,18 +5,18 @@
 
 * Contents:
     * [Introduction](#introduction)
-	* [Requirements](#requirements)
-    * [System architecture](#systemarchitecture)
-	* [Prerequisites](#prerequisites)
-	* [Component Preparation](#componentprepare)
-	* [Additional Usage](#additioanlusage)
+    * [System architecture](#system-architecture)
+	* [Prerequisites installation](#prerequisites-installation)
+	* [Component Preparation](#component-preparation)
+	* [Additional Usage](#additional-usage)
 	* [TODOs](#todos)
 <!-- /code_chunk_output -->
 
 ## Introduction:
-This is the last module project when I first learned about MLE. I will build and serving diabetes-prediciton model as in a production environment. I also used tool & technologies to quickly deploy the ML system into production and automate processes during the development and deployment of the ML system.
+This is the project when I first learned about MLE. This repo will help and guide you to build and serve ML model as in a production environment (Google Cloud Platform). I also used tool & technologies to quickly deploy the ML system into production and automate processes during the development and deployment of the ML system.
 
 ## System architecture:
+
 ![systempipline](assets/systempipeline.png)
 
 * Source control: Git/Github
@@ -30,8 +30,27 @@ This is the last module project when I first learned about MLE. I will build and
 ![k8sarchi](assets/Kubernetesarchi.png)
 
 ## Prerequisites installation:
+### Google Cloud Platform: Account Registration & Project Billing
+Google Cloud Platform will be the cloud we use in this project, so you should access https://console.cloud.google.com/ and register an account. (If you have a Gmail account, this should be easy)
+
+After creating GCP account, let's create your own `Project` now:
+![CreatenewproGCP](assets/CreatenewProjectGCP.png)
+
+Fill Project name (for example, "mlecourse" ), and hit **Create**
+![CreatenewproGCP2](assets/CreateNewprojectGCP2.png)
+
+**Note**: Remember to create a `billing account` after creating the project, then linking that `billing account` to the newly created project (refer: [Create and Link Billing account](https://www.youtube.com/watch?v=uINleRduCWM) ). If you've never used GCP before, choose "START MY FREE TRIAL" to try it out for 3 months for free.
+
+Next, navigate to [Compute Engine API UI](https://console.cloud.google.com/marketplace/product/google/compute.googleapis.com) to "ENABLE" **Compute Engine API**:
+![EnableComputeEngine](assets/EnableComputeEngineAPI.png)
+
+Navigate to [Kubernetes Engine API UI](https://console.cloud.google.com/marketplace/product/google/container.googleapis.com) to "ENABLE" **Kubernetes Engine API**
+![Enablek8s](assets/enableK8s.png)
+
+
 ### Install the gcloud CLI:
-You can easily connect to GKE using the Gcloud CLI. Reading this guide to install gcloud CLI [gcloud CLI](https://cloud.google.com/sdk/docs/install#deb).
+We can easily connect to GKE using the Gcloud CLI. Reading this guide to install gcloud CLI in local terminal [gcloud CLI](https://cloud.google.com/sdk/docs/install#deb).
+
 
 After that, initialize the gcloud CLI by typing `gcloud init`, then type "Y"
 ```bash
@@ -43,22 +62,6 @@ gcloud init
 *  Then type Y, and select the area that is ideal for you., then Enter.
 ### Install dev environment:
 #### Requirements:
-
-* ansible==8.3.0
-* fastapi==0.103.1
-* google-auth==2.23.0
-* google-auth-httplib2==0.1.1
-* google-auth-oauthlib==1.1.0
-* google-cloud==0.34.0
-* joblib==1.3.2
-* numpy==1.25.2
-* pre-commit==3.4.0
-* pydantic==2.3.0
-* pytest==7.1.2
-* requests==2.31.0
-* scikit-learn==1.3.0
-* uvicorn[standard]==0.23.2
-* xgboost==1.7.6
 
 ```bash
 pip install -r requirements_dev.txt
@@ -97,7 +100,7 @@ ansible-playbook create_compute_instance.yaml
 
 After creating your Jenkins VM instance on GCP, navigate to [VM instance UI](https://console.cloud.google.com/compute/instances) and COPY `external IP` corresponding with yours. I COPY `external IP` "jenkins-instance" for example:
 
-![ansibleIP](assets/ansibleIP.png)
+![ansibleIP](assets/AnsibleIP.png)
 
 Modify the IP of the newly created instance to the `inventory` file, then run the following commands:
 ```bash
@@ -166,21 +169,24 @@ Then navigate to [GKE UI](https://console.cloud.google.com/kubernetes):
 ![GKEui](assets/GKEui.png)
 
 Click on the cluster "mlecourse-399310-gke" for example and select "CONNECT"
+![GKEconnect0](assets/GKEconnect0.png)
+
+A pop-up to CONNECT to your cluster will appear:
 
 ![GKEconnect](assets/GKEconnect.png)
 
-Copy the line "gcloud container ..." into your local terminal as follows:
+Copy the line "gcloud container ..." into your local terminal:
 ```bash
 gcloud container clusters get-credentials <your_gke_name> --zone us-central1-c --project <your_project_id>
 ```
-We can see the line "kubeconfig entry generated for mlecourse-399310-gke".
+We should see the line "kubeconfig entry generated for mlecourse-399310-gke" after above command.
 
 Then, switch to your gke cluster using kubectx:
 ```bash
 kubectx <YOUR_GKE_CLUSTER>
 ```
 
-I am going to install the `nginx controller` on this new cluster right now to route traffic from outside to services within the cluster.
+Install the `nginx controller` on this new cluster right now to route traffic from outside to services within the cluster.
 
 ```bash
 helm upgrade --install ingress-nginx ingress-nginx --repo https://kubernetes.github.io/ingress-nginx --namespace ingress-nginx --create-namespace
@@ -199,7 +205,7 @@ Change directory to /`prometheus-grafana` folder and using helm to install Prome
 cd /prometheus-grafana
 helm upgrade --install prometheus-grafana-stack -f values-prometheus.yaml kube-prometheus-stack --namespace monitoring --create-namespace
 ```
-**Note:** View more information and make additional changes at [kube-prometheus-stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack)
+**Note:** View more information and get additional guide at [kube-prometheus-stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack)
 
 Now both prometheus and grafana have been installed on GKE cluster (in namespace `monitoring`).
 
@@ -210,16 +216,17 @@ kubectl get ingress -n monitoring
 We should see our Ingresses after this command.
 If you see host names for ingress like "grafana.tiennk.com," "alertmanager.tiennk.com" and "prometheus.tiennk.com" for example, with their corresponding addresses. That indicates that the installation was successful.
 
-So we are going to do now is that we are going to take that address and in our `etc/hosts` file.
+So we are going to do now is that we are going to take that addresses and in our `etc/hosts` file.
 
 ```bash
 sudo vi /etc/hosts
 ```
 
 At the end of open file (below example image), we gonna define our mapping.
-![IPmapping](assets/mappingIP.png)
+![IPmapping](assets/mappingIPP.png)
 
- And this works locally if we are going type "prometheus.tiennk.com" in the browser, and this will be the IP address that it's going to be mapped to. Do the same way when visiting "alertmanager.tiennk.com" or "prometheus.tiennk.com"
+ And this works locally if we are going type "prometheus.tiennk.com" in the browser (below image example), and this will be the IP address that it's going to be mapped to. Do the same way when visiting "alertmanager.tiennk.com" or "prometheus.tiennk.com"
+ ![prometheusUIexample](assets/prometheusUIexample.png)
 
 **Note**: The domain names of the monitoring services can be altered to suit your preferences. To set them up, open the values-Prometheus.yaml file. Lines `364` for Alertmanager, `919` for Grafana, and `2726` for Prometheus are in particular.
 
