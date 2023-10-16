@@ -34,17 +34,21 @@ This is the project when I first learned about MLE. This repo will help and guid
 Google Cloud Platform will be the cloud we use in this project, so you should access https://console.cloud.google.com/ and register an account. (If you have a Gmail account, this should be easy)
 
 After creating GCP account, let's create your own `Project` now:
+
 ![CreatenewproGCP](assets/CreatenewProjectGCP.png)
 
 Fill Project name (for example, "mlecourse" ), and hit **Create**
+
 ![CreatenewproGCP2](assets/CreateNewprojectGCP2.png)
 
 **Note**: Remember to create a `billing account` after creating the project, then linking that `billing account` to the newly created project (refer: [Create and Link Billing account](https://www.youtube.com/watch?v=uINleRduCWM) ). If you've never used GCP before, choose "START MY FREE TRIAL" to try it out for 3 months for free.
 
 Next, navigate to [Compute Engine API UI](https://console.cloud.google.com/marketplace/product/google/compute.googleapis.com) to "ENABLE" **Compute Engine API**:
+
 ![EnableComputeEngine](assets/EnableComputeEngineAPI.png)
 
-Navigate to [Kubernetes Engine API UI](https://console.cloud.google.com/marketplace/product/google/container.googleapis.com) to "ENABLE" **Kubernetes Engine API**
+Navigate to [Kubernetes Engine API UI](https://console.cloud.google.com/marketplace/product/google/container.googleapis.com) to "ENABLE" **Kubernetes Engine API**:
+
 ![Enablek8s](assets/enableK8s.png)
 
 
@@ -169,6 +173,7 @@ Then navigate to [GKE UI](https://console.cloud.google.com/kubernetes):
 ![GKEui](assets/GKEui.png)
 
 Click on the cluster "mlecourse-399310-gke" for example and select "CONNECT"
+
 ![GKEconnect0](assets/GKEconnect0.png)
 
 A pop-up to CONNECT to your cluster will appear:
@@ -223,9 +228,11 @@ sudo vi /etc/hosts
 ```
 
 At the end of open file (below example image), we gonna define our mapping.
+
 ![IPmapping](assets/mappingIPP.png)
 
  And this works locally if we are going type "prometheus.tiennk.com" in the browser (below image example), and this will be the IP address that it's going to be mapped to. Do the same way when visiting "alertmanager.tiennk.com" or "prometheus.tiennk.com"
+
  ![prometheusUIexample](assets/prometheusUIexample.png)
 
 **Note**: The domain names of the monitoring services can be altered to suit your preferences. To set them up, open the values-Prometheus.yaml file. Lines `364` for Alertmanager, `919` for Grafana, and `2726` for Prometheus are in particular.
@@ -239,6 +246,7 @@ Setting up a webhook on `Discord`:
 I assume you're already using Discord and have a channel that you want to send alerts to (in this example, we're using #alerts).
 
 Edit the channel settings by clicking the "Edit Channel" cog button:
+
 ![discordWebhook](assets/webhookdiscord.png)
 
 Next, head to the "Integrations" menu item:
@@ -246,9 +254,11 @@ Next, head to the "Integrations" menu item:
 ![Intergrate](assets/discordIntergrate.png)
 
 Click on "Create Webhook":
+
 ![CreateWebhook](assets/createWebhook.png)
 
 Click on the newly added hook:
+
 ![newlyCreateWebhook](assets/newlyCreatedwebhook.png)
 
 Adjust the name, copy the webhook URL, and save the hook:
