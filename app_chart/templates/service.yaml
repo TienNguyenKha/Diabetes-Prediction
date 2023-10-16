@@ -10,6 +10,11 @@ spec:
     app: {{ .Release.Name }}
   ports:
     - port: 30000
+      name: appport
       protocol: TCP
       targetPort: 30000
+    - port: 8099
+      name: metricsport
+      protocol: TCP
+      targetPort: 8099
   type: NodePort
