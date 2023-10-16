@@ -10,7 +10,7 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.1.0
     hooks:
-      # - id: check-added-large-files # prevents giant files from being committed.
+      - id: check-added-large-files # prevents giant files from being committed.
       - id: check-merge-conflict # checks for some markers such as "<<<<<<<", "=======", and ">>>>>>>".
       - id: detect-private-key # detects the presence of private keys.
       - id: end-of-file-fixer # ensures that a file is either empty, or ends with one newline.
