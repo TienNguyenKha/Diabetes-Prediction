@@ -7,13 +7,15 @@
     * [Introduction](#introduction)
 	* [Requirements](#requirements)
     * [System architecture](#systemarchitecture)
-	* [Usage](#usage)
+	* [Prerequisites](#prerequisites)
+	* [Component Preparation](#componentprepare)
 	* [Additional Usage](#additioanlusage)
 	* [TODOs](#todos)
 <!-- /code_chunk_output -->
 
 ## Introduction:
 This is the last module project when I first learned about MLE. I will build and serving diabetes-prediciton model as in a production environment. I also used tool & technologies to quickly deploy the ML system into production and automate processes during the development and deployment of the ML system.
+
 ## System architecture:
 ![systempipline](assets/systempipeline.png)
 
@@ -27,7 +29,7 @@ This is the last module project when I first learned about MLE. I will build and
 ### Kubernetes architecture:
 ![k8sarchi](assets/Kubernetesarchi.png)
 
-## Installation:
+## Prerequisites installation:
 ### Install the gcloud CLI:
 You can easily connect to GKE using the Gcloud CLI. Reading this guide to install gcloud CLI [gcloud CLI](https://cloud.google.com/sdk/docs/install#deb).
 
@@ -69,7 +71,8 @@ pip install -r requirements_dev.txt
 * [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
 * [kubectx + kubens](https://github.com/ahmetb/kubectx#manual-installation-macos-and-linux) (Optional)
 * [Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli#install-terraform)
-## Usage:
+
+## Component Preparation:
 
 ### Create Jenkins on google cloud VM:
 
@@ -108,7 +111,7 @@ First, check if we can connect to the External IP via port 22 by using telnet on
 telnel <jenkins_external_IP> 22
 ```
 
-You will see a notification that you have successfully connected if you did it correctly
+We will see a notification that you have successfully connected if you did it correctly
 
 Generate your SSH key first. Open your local terminal, type `ssh-keygen` and type Enter to die until Overwrite:
 ```bash
@@ -177,16 +180,77 @@ Then, switch to your gke cluster using kubectx:
 kubectx <YOUR_GKE_CLUSTER>
 ```
 
-I'll install the `nginx controller` on this new cluster right away because I'm not working with GCP's default ingress controller.
+I am going to install the `nginx controller` on this new cluster right now to route traffic from outside to services within the cluster.
 
 ```bash
 helm upgrade --install ingress-nginx ingress-nginx --repo https://kubernetes.github.io/ingress-nginx --namespace ingress-nginx --create-namespace
 ```
 
-**Note**: Remember to create a namespace `model-serving` first in your new cluster. Because this application will be deployed in `model-serving` namespace.
+<!-- **Note**: Remember to create a namespace `model-serving` first in your new cluster. Because our application will be deployed in `model-serving` namespace.
 ```bash
-k create ns model-serving
+kubectl create ns model-serving
+``` -->
+
+### Create Prometheus and Grafana monitoring:
+Prometheus and Grafana form a powerful combination for monitoring and observability. Therefore, I will utilize these two tools as my cluster's monitoring services.
+
+Change directory to /`prometheus-grafana` folder and using helm to install Prometheus and Grafana on newly created cluster:
+```bash
+cd /prometheus-grafana
+helm upgrade --install prometheus-grafana-stack -f values-prometheus.yaml kube-prometheus-stack --namespace monitoring --create-namespace
 ```
+**Note:** View more information and make additional changes at [kube-prometheus-stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack)
+
+Now both prometheus and grafana have been installed on GKE cluster (in namespace `monitoring`).
+
+Let's verify each matching monitoring service's host name and ingress IP to see if it has been installed successfully or not:
+```bash
+kubectl get ingress -n monitoring
+```
+We should see our Ingresses after this command.
+If you see host names for ingress like "grafana.tiennk.com," "alertmanager.tiennk.com" and "prometheus.tiennk.com" for example, with their corresponding addresses. That indicates that the installation was successful.
+
+So we are going to do now is that we are going to take that address and in our `etc/hosts` file.
+
+```bash
+sudo vi /etc/hosts
+```
+
+At the end of open file (below example image), we gonna define our mapping.
+![IPmapping](assets/mappingIP.png)
+
+ And this works locally if we are going type "prometheus.tiennk.com" in the browser, and this will be the IP address that it's going to be mapped to. Do the same way when visiting "alertmanager.tiennk.com" or "prometheus.tiennk.com"
+
+**Note**: The domain names of the monitoring services can be altered to suit your preferences. To set them up, open the values-Prometheus.yaml file. Lines `364` for Alertmanager, `919` for Grafana, and `2726` for Prometheus are in particular.
+
+#### Sending Prometheus Alerts to Discord with Alertmanager:
+
+First, create an alerting rule with `additionalPrometheusRules` in `values-prometheus.yaml` file (line 154). You could also simply use the rule I've already built to stay an eye on Node memory.
+
+Setting up a webhook on `Discord`:
+
+I assume you're already using Discord and have a channel that you want to send alerts to (in this example, we're using #alerts).
+
+Edit the channel settings by clicking the "Edit Channel" cog button:
+![discordWebhook](assets/webhookdiscord.png)
+
+Next, head to the "Integrations" menu item:
+
+![Intergrate](assets/discordIntergrate.png)
+
+Click on "Create Webhook":
+![CreateWebhook](assets/createWebhook.png)
+
+Click on the newly added hook:
+![newlyCreateWebhook](assets/newlyCreatedwebhook.png)
+
+Adjust the name, copy the webhook URL, and save the hook:
+
+![Botconfig](assets/Botdiscordconfig.png)
+
+Then go to line 297 in `values-prometheus.yaml` file to replace the <DISCORD_WEBHOOK_URL> placeholder with the webhook URL you just copied from Discord. It should look something like this: https://discord.com/api/webhooks/XXX/YYY.
+
+The config above will sends all alerts (grouped by alertname and job) to a single Discord receiver.
 
 ### CI/CD with Jenkins:
 
