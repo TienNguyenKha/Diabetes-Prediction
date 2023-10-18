@@ -32,7 +32,7 @@ This is the project when I first learned about MLE. This repo will help and guid
 
 ## Prerequisites installation:
 ### Google Cloud Platform: Account Registration & Project Billing
-Google Cloud Platform will be the cloud we use in this project, so you should access https://console.cloud.google.com/ and register an account. (If you have a Gmail account, this should be easy)
+Google Cloud Platform will be the cloud we use in this project, so you should access [Google Console](https://console.cloud.google.com/) and register an account. (If you have a Gmail account, this should be easy)
 
 After creating GCP account, let's create your own `Project` now:
 
@@ -210,7 +210,7 @@ At the end of open file (below example image), we gonna define our mapping.
 
 ![IPmapping](assets/mappingIPP.png)
 
- And this works locally if we are going type "prometheus.tiennk.com" in the browser (below image example), and this will be the IP address that it's going to be mapped to. Do the same way when visiting "alertmanager.tiennk.com" or "prometheus.tiennk.com"
+ And this works locally if we are going type "prometheus.tiennk.com" in the browser (below example image), and this will be the IP address that it's going to be mapped to. Do the same way when visiting "alertmanager.tiennk.com" or "prometheus.tiennk.com"
 
  ![prometheusUIexample](assets/prometheusUIexample.png)
 
@@ -300,20 +300,24 @@ After entering the password, install the "set sugested plugin". Information for 
 ![Jenkinsinstallsugest](assets/jenkinsInstallsugested.png)
 
 
-Now, you are in Jenkins UI:
+Now, we are in Jenkins UI:
 
 ![JenkinsUI](assets/JenkinsUI.png)
 
 Then navigate to Dashboard > Manage Jenkins > Plugins > Available plugin. And TYPE "Docker, Docker pipeline, gcloud SDK, kubernetes" on search bar. Then SELECT "Install without restart" or "Download now and install after restart"
 
-And then you can create new Jenkins pipeline by following these step:
+And now, we can create new Jenkins pipeline by following these step:
 * Click the New Item menu within Jenkins Classic UI left column
-
+![JenkinsNewitem](assets/Newitemjenkins.png)
 * Provide a name for your new item (e.g. My-Pipeline) and select Multibranch Pipeline
+![MultibranchJenkins](assets/multibranchJenkins.png)
+* Click the Add Source button, choose the type of repository you want to use and fill in the details (e.g. Github)
+![ChoosesourceJenkins](assets/choosetypeGithub.png)
+* Then, an expand UI to connect a GitHub Repository will appear:
+![ConnectGithub](assets/githubConnect.png)
+* After adding credential, remember to pick the credential you just added. Click the Save button and watch your first Pipeline run:
+![pickCredential](assets/pickCredential.png)
 
-* Click the Add Source button, choose the type of repository you want to use and fill in the details
-
-* Click the Save button and watch your first Pipeline run.
 
 **Note**: Remember to connect and assign permissions so that Jenkins may connect to the K8s cluster.
 ## Additional Usage:
