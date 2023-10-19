@@ -304,7 +304,52 @@ Now, we are in Jenkins UI:
 
 ![JenkinsUI](assets/JenkinsUI.png)
 
-Then navigate to Dashboard > Manage Jenkins > Plugins > Available plugin. And TYPE "Docker, Docker pipeline, gcloud SDK, kubernetes" on search bar. Then SELECT "Install without restart" or "Download now and install after restart"
+#### Install necessary plugins:
+
+Navigate to Dashboard > Manage Jenkins > Plugins > Available plugin. And TYPE "Docker, Docker pipeline, gcloud SDK, kubernetes" on search bar. Then SELECT "Install without restart".
+
+![](assets/jenkinsInstallationplugin.gif)
+
+When the installation is complete, `ssh` to your Jenkins VM again and restart jenkins container:
+```bash
+ssh -i ~/.ssh/id_rsa username@jenkins_externalIP # skip it if you are already in jenkins VM
+sudo docker restart jenkins
+```
+
+**Note:** When you go back to jenkins after restarting, it will force you to log in again. Enter "admin" in the account part to log in.  The password part is the same as you took in the previous step.
+#### Connect and assign permissions so that Jenkins connect to the K8s cluster:
+<!-- * Navigate to Dashboard > Manage Jenkins > Node and Clouds:
+![connectk8sStep1](assets/k8sconnectStep1.png)
+* SELECT "Clouds":
+![connectk8sStep2](assets/k8sconnectStep2.png)
+* Add a new cloud > Kubernetes
+![connectk8sStep3](assets/k8sconnectStep3.png)
+*  Then, an expand UI to connect to Kubernetes will appear: -->
+* In local terminal, create `ClusterRoleBinding` to grant permissions that access cluster-wide (granting permissions across all namespaces):
+	```bash
+	kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=system:anonymous
+
+	kubectl create clusterrolebinding cluster-admin-default-binding --clusterrole=cluster-admin --user=system:serviceaccount:model-serving:default
+	```
+* Then, back to Jenkins UI. Navigate to Dashboard > Manage Jenkins > Node and Clouds.
+* SELECT "Clouds".
+* Add a new cloud > Kubernetes.
+* Then fill in the cluster's information. (To get the "Cluster CA certificate", refer to [GKE UI](https://console.cloud.google.com/kubernetes)).
+![](assets/jenkinsConnectK8s.gif)
+
+#### Add dockerhub credential:
+* Navigate to Dashboard > Manage Jenkins > Credentials > (global).
+* Hit "Add Credentials" blue box in the top right corner.
+* Then fill in the dockerhub information.
+![](assets/jenkinsAddDockerCredential.gif)
+
+#### Generate github access tokens:
+* Go to your Github account [Github](https://github.com/)
+* Navigate Settings > Developer Settings > Personal access tokens
+* Create your access token. I'll give this token full permissions just to make things simple. It can be adjusted as desired.
+![](assets/generateGithubToken.gif)
+
+
 
 And now, we can create new Jenkins pipeline by following these step:
 * Click the New Item menu within Jenkins Classic UI left column
@@ -313,13 +358,23 @@ And now, we can create new Jenkins pipeline by following these step:
 ![MultibranchJenkins](assets/multibranchJenkins.png)
 * Click the Add Source button, choose the type of repository you want to use and fill in the details (e.g. Github)
 ![ChoosesourceJenkins](assets/choosetypeGithub.png)
-* Then, an expand UI to connect a GitHub Repository will appear:
+* Then, an expand UI to connect a GitHub Repository will appear. You can start using the github token you generated in the previous step.
 ![ConnectGithub](assets/githubConnect.png)
-* After adding credential, remember to pick the credential you just added. Click the Save button and watch your first Pipeline run:
-![pickCredential](assets/pickCredential.png)
+
+* After adding credential, remember to pick the credential you just added. Click the Save button and watch your first Pipeline run
+* You should see like the image below:
+![pickCredential](assets/sucessPipeline.png)
+
+#### Add webhook to your github repository:
+* Navigate to your repo > Settings > Webhooks
+* Hit "Add webhook" box in the top right corner.
+* Fill "http://[JenkinsVMexternalIP]:8081/github-webhook/"
+* Select Content type "application/json" > "Let me select individual events" (Any event can be specified here to start the CI/CD pipeline. Meanwhile, I will decide which "push" and "pull request" events to set triggered.)
+![](assets/createWebhook.gif)
+
+* From now on, Jenkins will perform CI/CD as soon as you publish or pull a change to github automatically:
 
 
-**Note**: Remember to connect and assign permissions so that Jenkins may connect to the K8s cluster.
 ## Additional Usage:
 ### Mlflow deploy:
 In case you want EDA and training model from my notebooks. You need deploy MLflow up by following command:
