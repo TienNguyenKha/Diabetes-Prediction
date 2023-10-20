@@ -4,10 +4,10 @@
     - name: Start an instance
       gcp_compute_instance:
         name: jenkins-instance
-        machine_type: e2-medium
+        machine_type: e2-standard-2
         # Refer to https://cloud.google.com/compute/docs/images/os-details#ubuntu_lts
         # or use the command `gcloud compute images list --project=ubuntu-os-cloud`
-        zone: us-west2-b
+        zone: us-west4-c
         project: mlecourse-399310
         # The service account is needed to create the resources
         auth_kind: serviceaccount
