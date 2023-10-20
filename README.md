@@ -450,4 +450,4 @@ yamllint <yaml_file_name>.yaml
 ```
 
 ## TODOs
-+ [ ] Building observability system on kubernetes (Prometheus and grafana)
+- [x] Building observability system on kubernetes (Prometheus and grafana)
