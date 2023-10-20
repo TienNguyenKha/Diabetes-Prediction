@@ -351,6 +351,7 @@ sudo docker restart jenkins
 
 
 
+
 And now, we can create new Jenkins pipeline by following these step:
 * Click the New Item menu within Jenkins Classic UI left column
 ![JenkinsNewitem](assets/Newitemjenkins.png)
@@ -363,7 +364,7 @@ And now, we can create new Jenkins pipeline by following these step:
 
 * After adding credential, remember to pick the credential you just added. Click the Save button and watch your first Pipeline run
 * You should see like the image below:
-![pickCredential](assets/sucessPipeline.png)
+![sucessPipeline](assets/sucessPipeline.png)
 
 #### Add webhook to your github repository:
 * Navigate to your repo > Settings > Webhooks
@@ -372,7 +373,33 @@ And now, we can create new Jenkins pipeline by following these step:
 * Select Content type "application/json" > "Let me select individual events" (Any event can be specified here to start the CI/CD pipeline. Meanwhile, I will decide which "push" and "pull request" events to set triggered.)
 ![](assets/createWebhook.gif)
 
-* From now on, Jenkins will perform CI/CD as soon as you publish or pull a change to github automatically:
+* From now on, Jenkins will perform CI/CD as soon as you publish or pull a change to github automatically.
+
+### Test API:
+We can now navigate to "http://tiennkapp.org.m1/docs" in your web browser to test Diabetes Prediction API (Running on 2 pods).
+
+![testAPI](assets/testAPI.png)
+
+### Using Prometheus and Grafana:
+To capture and export metrics (counter and histogram). I utilized `Opentelemetry`. Prometheus will then use port 8099 to scrape these metrics. Grafana will be set up to show these metrics on the customized dashboard.
+
+#### Node exporter:
+The Node Exporter will collect information such as CPU usage, memory usage, disk usage, and network usage. It help us to monitor the health of Kubernetes nodes and troubleshoot performance.
+
+* Navigate to http://grafana.tiennk.com/
+![NodeExporterStep1](assets/NodeExporterStep1.png)
+* Select "Dashboard"
+![NodeExporterStep2](assets/NodeExporterStep2.png)
+* Hit "New" blue box then select "Import":
+![NodeExporterStep3](assets/NodeExporterStep3.png)
+* Provide `Node exporter` Dashboard ID with "1860". (Any other already dashboard can be obtained through [Grafana Dashboard](https://grafana.com/grafana/dashboards/))
+![NodeExporterStep4](assets/NodeExporterStep4.png)
+* Select "Prometheus" data source and hit "Import"
+![NodeExporterStep5](assets/NodeExporterStep5.png)
+* Finally, you should see like the image below:
+![NodeExporterStep6](assets/NodeExporterStep6.png)
+
+
 
 
 ## Additional Usage:
@@ -404,4 +431,4 @@ yamllint <yaml_file_name>.yaml
 ```
 
 ## TODOs
- + Building observability system on kubernetes (Prometheus and grafana)
++ [ ] Building observability system on kubernetes (Prometheus and grafana)
