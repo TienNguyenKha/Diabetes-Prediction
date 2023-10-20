@@ -381,10 +381,10 @@ We can now navigate to "http://tiennkapp.org.m1/docs" in your web browser to tes
 ![testAPI](assets/testAPI.png)
 
 ### Using Prometheus and Grafana:
-To capture and export metrics (counter and histogram). I utilized `Opentelemetry`. Prometheus will then use port 8099 to scrape these metrics. Grafana will be set up to show these metrics on the customized dashboard.
+
 
 #### Node exporter:
-The Node Exporter will collect information such as CPU usage, memory usage, disk usage, and network usage. It help us to monitor the health of Kubernetes nodes and troubleshoot performance.
+The Node Exporter will collect information such as CPU usage, memory usage, disk usage, and network usage. It help us to monitor the health of Kubernetes nodes and troubleshoot performance. Additionally, we already have a template dashboard for it that only needs to be reused.
 
 * Navigate to http://grafana.tiennk.com/
 ![NodeExporterStep1](assets/NodeExporterStep1.png)
@@ -399,9 +399,28 @@ The Node Exporter will collect information such as CPU usage, memory usage, disk
 * Finally, you should see like the image below:
 ![NodeExporterStep6](assets/NodeExporterStep6.png)
 
+#### Opentelemetry custom metrics dashboard:
+To capture and export metrics from Diabetes prediction API (`counter` for "number of requests"  and `histogram` for "response time"). I utilized `Opentelemetry` module. Prometheus will then use port "8099" to scrape these metrics. Grafana will be set up to show these customized metrics on customized dashboard.
 
+* Go to [Prometheus Targets](http://prometheus.tiennk.com/targets?search=) first to check if it has actually scraped Opentelemetry metrics from the Diabetes Prediction API.
+![prometheusCheckScrape](assets/prometheusCheckScrape.png)
 
+* Then navigate to [Grafana dashboard](http://grafana.tiennk.com/dashboards) and create new dashboard:
+![OpenteleDashboardStep1](assets/OpenteleDashboardStep1.png)
+* Hit blue box "Add visualization"
+![OpenteleDashboardStep2](assets/OpenteleDashboardStep2.png)
+* A pop-up to select "data source" will appear. Then select "Prometheus".
+![OpenteleDashboardStep3](assets/OpenteleDashboardStep3.png)
+* Then add and decorate your new panel and dashboard:
+![OpenteleDashboardStep4](assets/OpenteleDashboardStep4.png)
+* Finally, you should see like the image below:
+![OpenteleDashboardStep5](assets/OpenteleDashboardStep5.png)
 
+**Note:**
+
+* You can customize other metrics from [Opentelemetry API metrics](https://opentelemetry.io/docs/specs/otel/metrics/api/) by yourself. Then just edit the `/app/main.py` file to wrap up.
+* Go to [Prometheus UI](http://prometheus.tiennk.com/) to perform any expressions as you like. For instance, I want to know how many responses, on average, will come in within 5 minutes in 1 second through this expression "`rate(diabetespred_response_histogram_seconds_count[5m])`"
+![prometheusQueryExample](assets/prometheusQueryExample.png)
 ## Additional Usage:
 ### Mlflow deploy:
 In case you want EDA and training model from my notebooks. You need deploy MLflow up by following command:
