@@ -5,7 +5,7 @@
 
 * Contents:
     * [Introduction](#introduction)
-    * [System architecture](#system-architecture)
+    <!-- * [System architecture](#system-architecture) -->
 	* [Prerequisites installation](#prerequisites-installation)
 	* [Component Preparation](#component-preparation)
 	* [Usage](#usage)
@@ -16,9 +16,9 @@
 ## Introduction:
 This is the project when I first learned about MLE. This repo will help and guide you to build and serve ML model as in a production environment (Google Cloud Platform). I also used tool & technologies to quickly deploy the ML system into production and automate processes during the development and deployment of the ML system.
 
-## System architecture:
+<!-- ## Workflow graph: -->
 
-![systempipline](assets/systempipeline.png)
+![systempipline](assets/project_pipeline.png)
 
 * Source control: Git/Github
 * CI/CD: Jenkins
@@ -26,9 +26,15 @@ This is the project when I first learned about MLE. This repo will help and guid
 * Build API: FastAPI
 * Containerize application: Docker
 * Container orchestration system: Kubernetes/K8S
+* Data Version Control: DVC
+* K8s's package manager: Helm
+* Monitoring tool: Prometheus & Grafana
+* Deliver infrastructure as code: Ansible & Terraform
+* Ingress controller: Nginx ingress
+* Cloud platform: Google cloud platform/GCP
 
-### Kubernetes architecture:
-![k8sarchi](assets/Kubernetesarchi.png)
+<!-- ### Kubernetes architecture:
+![k8sarchi](assets/Kubernetesarchi.png) -->
 
 ## Prerequisites installation:
 ### Google Cloud Platform: Account Registration & Project Billing
@@ -97,7 +103,7 @@ Before creating google cloud VM by ansbile, you must first prepare a few things 
 
 Create Jenkins VM instance on GCP.
 ```bash
-cd /local/ansible/deploy_jenkins
+cd ./local/ansible/deploy_jenkins
 ansible-playbook create_compute_instance.yaml
 ```
 
@@ -120,7 +126,7 @@ ansible-playbook -i ../inventory deploy_jenkins.yml
 
 Change directory to `/terraform` folder and initializes a working directory containing Terraform configuration files.
 ```bash
-cd /terraform
+cd ./terraform
 terraform init
 ```
 Then you can creates an execution plan, which lets you preview the changes that Terraform plans to make to your infrastructure.
@@ -186,7 +192,7 @@ Prometheus and Grafana form a powerful combination for monitoring and observabil
 
 Change directory to /`prometheus-grafana` folder and using helm to install Prometheus and Grafana on newly created cluster:
 ```bash
-cd /prometheus-grafana
+cd ./prometheus-grafana
 helm upgrade --install prometheus-grafana-stack -f values-prometheus.yaml kube-prometheus-stack --namespace monitoring --create-namespace
 ```
 **Note:** View more information and get additional guide at [kube-prometheus-stack](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack)
@@ -253,7 +259,7 @@ The config above will sends all alerts (grouped by alertname and job) to a singl
 
 First, check if we can connect to the External IP of Jenkins via port 22 by using telnet on your local terminal:
 ```bash
-telnel <jenkins_external_IP> 22
+telnet <jenkins_external_IP> 22
 ```
 
 We will see a notification that you have successfully connected if you did it correctly
@@ -425,15 +431,19 @@ To capture and export metrics from Diabetes prediction API (`counter` for "numbe
 ### Mlflow deploy:
 In case you want EDA and training model from my notebooks. You need deploy MLflow up by following command:
 ```bash
-pip install mlflow==2.6.0
-docker compose -f ./ops_platform/mlflow/mlflow-docker-compose.yml up -d
+pip install mlflow==2.1.1
+docker compose -f ./virtualization/mlflow/mlflow-docker-compose.yml up -d
 ```
 Then you can open MLflow's web browser through: http://localhost:5000/
 
 ![Mlflow](assets/Mlflow.png)
 
 Now, you can do Experiment tracking & Model registry more easier with MLflow.
-
+### DVC:
+This tool help you manage large datasets, make projects reproducible, and collaborate better.
+```bash
+pip install dvc==3.30.1
+```
 ### Pre-commit:
 If you want to inspect the snapshot that's about to be committed, to see if you've forgotten something, to make sure tests run, or to examine whatever you need to inspect in the code. Let's use `pre-commit`
 ```bash
@@ -450,4 +460,4 @@ yamllint <yaml_file_name>.yaml
 ```
 
 ## TODOs
-- [x] Building observability system on kubernetes (Prometheus and grafana)
+- [x] ~~Building observability system on kubernetes (Prometheus and grafana)~~
