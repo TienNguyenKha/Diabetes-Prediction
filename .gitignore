@@ -197,4 +197,3 @@ poetry.toml
 mlruns
 
 *.parquet
-/data
