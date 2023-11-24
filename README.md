@@ -40,6 +40,7 @@ Diabetes-Prediction
 	│    └── mlfow                     					 /* Mlflow deployment */
 	├── .pre-commit-config.yaml 					     /* Validate and format code every commit */
 	├── .yamlint.yaml							         /* Validate YAML files */
+	├── requirements_dev.txt							 /* Requirements for dev(local) environment */
 	├── ...
 	└── README.md                                        /* Readme file with an overview of this project */
 ```
