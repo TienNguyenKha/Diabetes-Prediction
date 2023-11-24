@@ -409,7 +409,7 @@ And now, we can create new Jenkins pipeline by following these step:
 * Hit "Add webhook" box in the top right corner.
 * Fill "http://[JenkinsVMexternalIP]:8081/github-webhook/"
 * Select Content type "application/json" > "Let me select individual events" (Any event can be specified here to start the CI/CD pipeline. Meanwhile, I will decide which "push" and "pull request" events to set triggered.)
-![](assets/createWebhook.gif)
+![](assets/createWebhook-crop.gif)
 
 * From now on, Jenkins will perform CI/CD as soon as you publish or pull a change to github automatically.
 
