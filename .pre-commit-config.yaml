@@ -11,11 +11,11 @@ repos:
     rev: v4.1.0
     hooks:
       - id: check-added-large-files # prevents giant files from being committed.
-      # - id: check-merge-conflict # checks for some markers such as "<<<<<<<", "=======", and ">>>>>>>".
-      # - id: detect-private-key # detects the presence of private keys.
-      # - id: end-of-file-fixer # ensures that a file is either empty, or ends with one newline.
-      # - id: requirements-txt-fixer # sorts entries in requirements.txt.
-      # - id: trailing-whitespace # trims trailing whitespace at the end of lines.
+      - id: check-merge-conflict # checks for some markers such as "<<<<<<<", "=======", and ">>>>>>>".
+      - id: detect-private-key # detects the presence of private keys.
+      - id: end-of-file-fixer # ensures that a file is either empty, or ends with one newline.
+      - id: requirements-txt-fixer # sorts entries in requirements.txt.
+      - id: trailing-whitespace # trims trailing whitespace at the end of lines.
 
   # # Format YAML and other files
   # - repo: https://github.com/pre-commit/mirrors-prettier
