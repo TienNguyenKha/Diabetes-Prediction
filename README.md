@@ -24,11 +24,11 @@ Diabetes-Prediction
 	├── assets                                           /* Images and gifs */
 	├── data                                             /* Containing "Diabetes" data (e.g, raw data) */
 	├── examples                                         /* Example to run application */
-	├── local                                         	 /* Local experiment and manual tasks */
+	├── local                                            /* Local experiment and manual tasks */
 	│    ├── ansible                                     /* Provision Jenkins VM with ansible */
 	│    │    └── secrets                                /* Put your GG credentials here, e.g, mle1-project-d1d08aeaff08.json */
 	│    └── custom_jenkins                              /* Building custom jenkins image */
-	├── models                                         	 /* Containing small models (e.g, pickle files) or containing model architecture codes (for DL models) */
+	├── models                                           /* Containing small models (e.g, pickle files) or containing model architecture codes (for DL models) */
 	├── notebook                                         /* Notebooks while experimenting (e.g., EDA) */
 	├── prometheus-grafana
 	│    ├── kube-prometheus-stack                       /* Helm chart to deploy Prometheus and Grafana */
@@ -38,8 +38,8 @@ Diabetes-Prediction
 	├── virtualization
 	│    └── mlfow                                       /* Mlflow deployment */
 	├── .pre-commit-config.yaml                          /* Validate and format code every commit */
-	├── .yamlint.yaml                          			 /* Validate YAML files */
-	├── requirements_dev.txt                          	 /* Requirements for dev(local) environment */
+	├── .yamlint.yaml                                    /* Validate YAML files */
+	├── requirements_dev.txt                             /* Requirements for dev(local) environment */
 	├── ...
 	└── README.md                                        /* Readme file with an overview of this project */
 ```
