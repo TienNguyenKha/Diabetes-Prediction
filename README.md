@@ -4,8 +4,8 @@
 <!-- code_chunk_output -->
 
 * Contents:
-	* [Repository structure](#repository-structure)
     * [Introduction](#introduction)
+	* [Repository structure](#repository-structure)
     <!-- * [System architecture](#system-architecture) -->
 	* [Prerequisites installation](#prerequisites-installation)
 	* [Component Preparation](#component-preparation)
@@ -13,36 +13,7 @@
 	* [Additional Usage](#additional-usage)
 	* [TODOs](#todos)
 <!-- /code_chunk_output -->
-## Repository structure:
 
-```txt
-Diabetes-Prediction
- 	├── app
-	│    ├── utils                                       /* Includes supplementary codes, e.g, logger object */
-	│    └── main.py                                     /* Main executable file */
-	├── app_chart                                        /* Helm chart to deploy application */
-	├── assets                                           /* Images and gifs */
-	├── data                                             /* Containing "Diabetes" data (e.g, raw data) */
-	├── examples                                         /* Example to run application */
-	├── local                                            /* Local experiment and manual tasks */
-	│    ├── ansible                                     /* Provision Jenkins VM with ansible */
-	│    │    └── secrets                                /* Put your GG credentials here, e.g, mle1-project-d1d08aeaff08.json */
-	│    └── custom_jenkins                              /* Building custom jenkins image */
-	├── models                                           /* Containing small models (e.g, pickle files) or containing model architecture codes (for DL models) */
-	├── notebook                                         /* Notebooks while experimenting (e.g., EDA) */
-	├── prometheus-grafana
-	│    ├── kube-prometheus-stack                       /* Helm chart to deploy Prometheus and Grafana */
-	│    └── values-prometheus.yaml                      /* Custom config file for Prometheus and Grafana */
-	├── terraform                                        /* Provision GKE with terraform */
-	├── tests                                            /* Put your tests here, e.g., correct and fairness,... */
-	├── virtualization
-	│    └── mlfow                                       /* Mlflow deployment */
-	├── .pre-commit-config.yaml                          /* Validate and format code every commit */
-	├── .yamlint.yaml                                    /* Validate YAML files */
-	├── requirements_dev.txt                             /* Requirements for dev(local) environment */
-	├── ...
-	└── README.md                                        /* Readme file with an overview of this project */
-```
 ## Introduction:
 This is the project when I first learned about MLE. This repo will help and guide you to build and serve ML model as in a production environment (Google Cloud Platform). I also used tool & technologies to quickly deploy the ML system into production and automate processes during the development and deployment of the ML system.
 
@@ -65,6 +36,37 @@ This is the project when I first learned about MLE. This repo will help and guid
 
 <!-- ### Kubernetes architecture:
 ![k8sarchi](assets/Kubernetesarchi.png) -->
+
+## Repository structure:
+
+```txt
+Diabetes-Prediction
+ 	├── app
+	│    ├── utils                                       /* Includes supplementary codes, e.g, logger object */
+	│    └── main.py                                     /* Main executable file */
+	├── app_chart                                        /* Helm chart to deploy application to K8s */
+	├── assets                                           /* Images and gifs */
+	├── data                                             /* Containing "Diabetes" data (e.g, raw data) */
+	├── examples                                         /* Example to run application */
+	├── local                                            /* Local experiment and manual tasks */
+	│    ├── ansible                                     /* Provision Jenkins VM with ansible */
+	│    │    └── secrets                                /* Put your GG credentials here, e.g, mle1-project-d1d08aeaff08.json */
+	│    └── custom_jenkins                              /* Building custom jenkins image */
+	├── models                                           /* Containing small models (e.g, pickle files) or containing model architecture codes (for DL models) */
+	├── notebook                                         /* Notebooks while experimenting (e.g., EDA) */
+	├── prometheus-grafana
+	│    ├── kube-prometheus-stack                       /* Helm chart to deploy Prometheus and Grafana to K8s*/
+	│    └── values-prometheus.yaml                      /* Custom config file for Prometheus and Grafana */
+	├── terraform                                        /* Provision GKE with terraform */
+	├── tests                                            /* Put your tests here, e.g., correct and fairness,... */
+	├── virtualization
+	│    └── mlfow                                       /* Mlflow deployment */
+	├── .pre-commit-config.yaml                          /* Validate and format code every commit */
+	├── .yamlint.yaml                                    /* Validate YAML files */
+	├── requirements_dev.txt                             /* Requirements for dev(local) environment */
+	├── ...
+	└── README.md                                        /* Readme file with an overview of this project */
+```
 
 ## Prerequisites installation:
 ### Google Cloud Platform: Account Registration & Project Billing
