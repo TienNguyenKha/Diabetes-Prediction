@@ -17,7 +17,6 @@
 
 ```txt
 Diabetes-Prediction
- └──|
 	├── app
 	│    ├── utils                                       /* Includes supplementary codes, e.g, logger object */
 	│    └── main.py                                     /* Main executable file */
