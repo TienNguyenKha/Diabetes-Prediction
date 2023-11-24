@@ -30,4 +30,4 @@ def _init_logger(name: str):
 
 
 # Initialize the logger
-logger = _init_logger(name="hpp-logger")
+logger = _init_logger(name="diabetes-app-logger")
