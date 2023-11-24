@@ -22,7 +22,7 @@ Diabetes-Prediction
 	│    ├── utils                                       /* Includes supplementary codes, e.g, logger object */
 	│    └── main.py                                     /* Main executable file */
 	├── app_chart                                        /* Helm chart to deploy application */
-	├── assets 											 /* Images and gifs */
+	├── assets											 /* Images and gifs */
 	├── data 											 /* Containing "Diabetes" data (e.g, raw data) */
 	├── examples 										 /* Example to run application */
 	├── local 											 /* Local experiment and manual tasks */
