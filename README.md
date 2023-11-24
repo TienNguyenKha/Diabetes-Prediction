@@ -373,7 +373,7 @@ sudo docker restart jenkins
 * SELECT "Clouds".
 * Add a new cloud > Kubernetes.
 * Then fill in the cluster's information. (To get the "Cluster CA certificate", refer to [GKE UI](https://console.cloud.google.com/kubernetes)).
-![](assets/jenkinsConnectK8s-crop.gif)
+![](assets/jenkinsConnectK8-crop.gif)
 
 #### Add dockerhub credential:
 * Navigate to Dashboard > Manage Jenkins > Credentials > (global).
