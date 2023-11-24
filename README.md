@@ -373,19 +373,19 @@ sudo docker restart jenkins
 * SELECT "Clouds".
 * Add a new cloud > Kubernetes.
 * Then fill in the cluster's information. (To get the "Cluster CA certificate", refer to [GKE UI](https://console.cloud.google.com/kubernetes)).
-![](assets/jenkinsConnectK8s.gif)
+![](assets/jenkinsConnectK8s-crop.gif)
 
 #### Add dockerhub credential:
 * Navigate to Dashboard > Manage Jenkins > Credentials > (global).
 * Hit "Add Credentials" blue box in the top right corner.
 * Then fill in the dockerhub information.
-![](assets/jenkinsAddDockerCredential.gif)
+![](assets/jenkinsAddDockerCredential-crop.gif)
 
 #### Generate github access tokens:
 * Go to your Github account [Github](https://github.com/)
 * Navigate Settings > Developer Settings > Personal access tokens
 * Create your access token. I'll give this token full permissions just to make things simple. It can be adjusted as desired.
-![](assets/generateGithubToken.gif)
+![](assets/generateGithubToken-crop.gif)
 
 
 
