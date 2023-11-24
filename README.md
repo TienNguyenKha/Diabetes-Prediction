@@ -15,9 +15,9 @@
 <!-- /code_chunk_output -->
 ## Repository structure:
 
-```txt
+```bash
 Diabetes-Prediction
-	├── app
+ 	├── app
 	│    ├── utils                                       /* Includes supplementary codes, e.g, logger object */
 	│    └── main.py                                     /* Main executable file */
 	├── app_chart                                        /* Helm chart to deploy application */
